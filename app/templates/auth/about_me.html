@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block page_content %}
+
+    <div >
+        <div class="page-header"><h1>个人信息展示</h1></div>
+        <div class="col-md-4"><img src="{{ user.get_upload_file() }}"></div>
+
+
+        <div class="col-md-8">
+            <h3>姓名：{{ user.username }}</h3>
+            <h3>地址：{{ user.location }}</h3>
+            <h3>邮箱：{{ user.email }}</h3>
+            <h3>自我介绍：{{ user.about_me }}</h3>
+            <h3>
+                注册时间：{{ moment(user.member_since).format('LL') }}&nbsp;&nbsp;&nbsp;上次访问于{{ moment(current_time).fromNow(refresh=True) }}</h3>
+
+            <h3>{{ user.post.__len__() }}条博文</h3>
+            {% if login_user == user %}
+                <a type="buutton" href="{{ url_for('auth.edit_profile') }}" class="btn btn-default">修改资料</a>
+            {% endif %}
+
+            {% if current_user.is_administrator() %}
+                <a type="buutton" href="{{ url_for('auth.edit_profile_admin',user_id=current_user.id) }}"
+                   class="btn btn-danger">修改资料[admin]</a>
+            {% endif %}
+        {% if user.username != login_user.username %}
+
+        {% if not current_user.is_anonymous %}
+             {% if login_user.is_following(user) %}
+                <a  href="{{ url_for('auth.cancel_the_attention',id=user.id) }}"><button class="btn btn-group">取消关注</button></a>
+            {% else %}
+               <a href="{{ url_for('auth.cancel_or_attention',id=user.id) }}"><button class="btn btn-info"> 关注</button></a>
+        {% endif %}
+        {% endif %}
+
+        {% endif %}
+
+            <h4 style="display: inline-block">
+                <a href="{{ url_for('auth.fans_amount',id=user.id) }}">粉丝数：</a><span class="badge">{{ user.is_blogers.all().__len__() }}</span>
+                <a href="{{ url_for('auth.bloger',id=user.id) }}">关注数：</a><span class="badge">{{ user.is_fans.all().__len__() }}</span>
+            </h4>
+
+        </div>
+    </div>
+    <div>
+        {% include 'includes/posts.html' %}
+    </div>
+
+{% endblock %}

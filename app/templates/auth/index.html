@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block page_content %}
+
+
+    {% if current_user.username %}
+        <div class="page-header"><h1>Hello {{ current_user.username }}</h1></div>
+    {% else %}
+        <div class="page-header"><h1>Hello 匿名用户</h1></div>
+    {% endif %}
+
+
+<div class="col-md-10 col-md-offset-1 col-sm-12">
+{% if not current_user.is_anonymous %}
+ {{ wtf.quick_form(form) }}
+{% endif %}
+
+    {% include 'includes/posts.html' %}
+<div>
+
+
+{% endblock %}

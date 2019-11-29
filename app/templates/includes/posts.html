@@ -1,0 +1,41 @@
+<div class="a">
+
+
+    <div class="post-body">
+        <ul class="nav nav-tabs">
+
+            <li role="presentation" {% if not show_followed %}class="active" {% endif %}><a href="{{ url_for('auth.show_all') }}">全部文章</a></li>
+            {% if current_user.is_authenticated  %}
+                   <li role="presentation" {% if show_followed %} class="active"{% endif %}><a href="{{ url_for('auth.show_followed') }}">关注文章</a></li>
+            {% endif %}
+
+        </ul>
+
+        {% for foo in pagination.items %}
+            <div class="a1">
+                <div class="head-img">
+                        <a href="{{ url_for('auth.aboutme',id=foo.author.id) }}"><img src="{{ foo.author.get_upload_file()}}"></a>
+                    <a  href="{{ url_for('auth.aboutme',id=foo.author.id) }}"><p class="author-name">{{ foo.author }}</p></a>
+                    <p class="time">{{ moment(foo.created).fromNow(refresh=True) }}</p>
+                </div>
+                {% if foo.body_html %}
+                    <div class="body">
+                        {{ foo.body_html | safe }}
+                    </div>
+                    </div>
+                {% else %}
+                    <div class="a1">
+                        {{ foo.body }}
+                    </div>
+                {% endif %}
+            <p class="edit">
+                <a href="{{ url_for('auth.edit',id=foo.id) }}"><span class="label label-info">编辑</span></a>
+                <a href="{{ url_for('auth.edit',id=foo.id) }}"><span class="label label-success">生成链接</span></a>
+                <a href="{{ url_for('auth.comment',id=foo.id) }}"><span class="label label-primary">评论</span></a>
+            </p>
+            <hr>
+        {% endfor %}
+        {% include 'includes/Pagination.html' %}
+    </div>
+</div>
+

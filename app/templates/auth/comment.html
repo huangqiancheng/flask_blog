@@ -1,0 +1,100 @@
+{% import "bootstrap/wtf.html" as wtf %}
+{% extends 'base.html' %}
+{% block page_content %}
+    <div class="col-md-10 col-md-offset-1 col-sm-12">
+
+
+    <div class="a">
+
+
+        <div class="post-body">
+
+
+            <div class="a1">
+                <div class="head-img">
+                    <a><img src="{{ user.get_upload_file() }}"></a>
+                    <p class="author-name">{{ user.username }}</p>
+                    <p class="time">{{ moment(post.created).fromNow(refresh=True) }}</p>
+                </div>
+                {% if post.body_html %}
+                    <div class="body">
+                        {{ post.body_html | safe }}
+                    </div>
+                    </div>
+                {% else %}
+                    <div class="a1">
+                        {{ post.body }}
+                    </div>
+                {% endif %}
+            <p class="edit">
+                <a href=""><span class="label label-info">编辑</span></a>
+                <a href=""><span class="label label-success">生成链接</span></a>
+                <a href=""><span class="label label-primary">评论</span></a>
+            </p>
+            <hr>
+
+        </div>
+        <div style="margin-top: 100px">
+
+            <h1>发表评论</h1>
+            {% if not current_user.is_anonymous %}
+                {{ wtf.quick_form(form) }}
+            {% endif %}
+
+
+            {% for foo in pagination.items %}
+                <div class="a1">
+                    <div class="head-img">
+                        <a><img src="{{ foo.user_comment.get_upload_file() }}"></a>
+                        <a><p class="author-name">{{ foo.user_comment.username }}</p></a>
+                        <p class="time">{{ moment(foo.timestamp).fromNow(refresh=True) }}</p>
+                    </div>
+                    {% if foo.body_html %}
+                        <div style="margin-top: -30px" class="body">
+                            {% if not foo.ban %}
+                                {{ foo.body_html | safe }}
+                            {% else %}
+                                <h2>该条评论已被管理员禁止显示</h2>
+                            {% endif %}
+                        </div>
+                        </div>
+                    {% else %}
+                        <div style="margin-top: -30px;" class="a1 body">
+                            {% if not foo.ban %}
+                                {{ foo.body }}
+                            {% else %}
+                                <h2>该条评论已被管理员禁止显示</h2>
+                            {% endif %}
+
+                        </div>
+                    {% endif %}
+                {% if not current_user.is_anonymous and current_user.is_administrator %}
+                    {% if not foo.ban %}
+                        <a href="{{ url_for('auth.banned',id=foo.id) }}">
+                            <button class="btn btn-info banned_button">禁言</button>
+                        </a>
+                    {% else %}
+                        <a href="{{ url_for('auth.cancel_banned',id=foo.id) }}">
+                            <button  class="btn btn-group">取消禁言</button>
+                        </a>
+                    {% endif %}
+
+
+
+
+                {% endif %}
+                <hr>
+            {% endfor %}
+
+
+            {% include 'includes/Pagination.html' %}
+        </div>
+
+
+    </div>
+    <div>
+
+
+{% endblock %}
+
+

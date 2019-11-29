@@ -1,0 +1,1 @@
+set FLASK_APP=test.py
