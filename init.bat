@@ -1,1 +1,7 @@
 set FLASK_APP=test.py
+set FLASK_CONFIG='production';
+set SECRET_KEY='s23434asdV#FB?DFBHD/sdfb\dfbaw15656564';
+set MAIL_USERNAME='13476319128@163.com';
+set MAIL_PASSWORD='QWER123456';
+set  TEST_DATABASE_URL='mysql+pymysql://newuser:123456@192.168.109.129:3306/flask_blog'
+set FLASK_ADMIN='13476319128@163.com';

@@ -43,7 +43,7 @@ def index():
             flash("成功！")
             return redirect(url_for('auth.index'))
         except Exception :
-            db.session().rollback()
+            db.session.rollback()
             flash("失败！")
             return render_template('auth/index.html', form=form)
     return render_template('auth/index.html',form=form,user=current_user,pagination=pagination,show_followed=show_followed)
@@ -89,7 +89,7 @@ def register():
             sender_email(email, '激活账号！', 'auth/email/confirm', user=useranme, token=token)
             flash("已发送一封邮件到你的邮箱")
         except:
-            db.session().rollback()
+            db.session.rollback()
             flash("注册失败！")
             return render_template("auth/register.html", form=form)
         return redirect(url_for("auth.index"))
@@ -177,7 +177,7 @@ def edit_profile():
             flash("信息修改成功！")
             return redirect(url_for('auth.aboutme'))
         except Exception:
-            db.session().rollback()
+            db.session.rollback()
             flash("信息修改失败！")
             return render_template('auth/edit_profile.html',form=form)
     return render_template('auth/edit_profile.html', form=form)
@@ -212,7 +212,7 @@ def edit_profile_admin(user_id):
             flash("信息修改成功！")
             return redirect(url_for('auth.aboutme'))
         except Exception:
-            db.session().rollback()
+            db.session.rollback()
             flash("信息修改失败！")
             return render_template('auth/edit_profile_admin.html', form=form)
     return render_template('auth/edit_profile_admin.html', form=form,user=user)

@@ -71,11 +71,11 @@
                 {% if not current_user.is_anonymous and current_user.is_administrator %}
                     {% if not foo.ban %}
                         <a href="{{ url_for('auth.banned',id=foo.id) }}">
-                            <button class="btn btn-info banned_button">禁言</button>
+                            <button class="btn btn-info banned_button">禁止显示</button>
                         </a>
                     {% else %}
                         <a href="{{ url_for('auth.cancel_banned',id=foo.id) }}">
-                            <button  class="btn btn-group">取消禁言</button>
+                            <button  class="btn btn-group">恢复</button>
                         </a>
                     {% endif %}
 
@@ -87,7 +87,7 @@
             {% endfor %}
 
 
-            {% include 'includes/Pagination.html' %}
+{#            {% include 'includes/Pagination.html' %}#}
         </div>
 
 

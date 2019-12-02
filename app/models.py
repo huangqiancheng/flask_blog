@@ -93,7 +93,7 @@ class User(UserMixin,db.Model):
     about_me = db.Column(db.Text)
     member_since = db.Column(db.DateTime,default=datetime.now)
     last_seen = db.Column(db.DateTime,default = datetime.now)
-    avatar_url = db.Column(db.String(128))
+    avatar_url = db.Column(db.String(128),default ='head_image/U105P28T3D2048907F326DT20080604225106.jpg')
     confirmed = db.Column(db.Boolean,default=False)
     role_id = db.Column(db.Integer, db.ForeignKey("roles.id"),nullable=True)
     post = db.relationship('Post',backref = 'author')
