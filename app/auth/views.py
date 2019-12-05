@@ -7,6 +7,7 @@ from flask_login import login_required, current_user, logout_user, login_user
 from werkzeug.utils import secure_filename, redirect
 
 from app import db, config
+from app.api import api
 from app.auth import auth
 from app.auth.email import sender_email
 from app.auth.forms import UploadForm, RegisterForm, LoginForm, EditProfileForm, EditProfilenameAdminForm, PostForm, \
@@ -176,7 +177,7 @@ def edit_profile():
             db.session.commit()
             flash("信息修改成功！")
             return redirect(url_for('auth.aboutme'))
-        except Exception:
+        except:
             db.session.rollback()
             flash("信息修改失败！")
             return render_template('auth/edit_profile.html',form=form)
@@ -329,3 +330,5 @@ def cancel_banned(id):
         flash("取消禁言失败！")
         return redirect(url_for('auth.comment',id=comment.post_id))
     return redirect(url_for('auth.comment', id=comment.post_id))
+
+

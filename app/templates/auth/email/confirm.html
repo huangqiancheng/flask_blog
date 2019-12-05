@@ -1,8 +1,6 @@
-{% extends 'base.html' %}
-{% block page_content %}
+
 {{ user.username }}
     欢迎您注册我们的网站!
     请点击如下链接，以激活您的账号：
     {{ url_for('auth.confirm', token=token, _external=True) }}
     注意：请勿回复此邮件。
-{% endblock %}
