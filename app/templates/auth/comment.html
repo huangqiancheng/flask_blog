@@ -26,23 +26,21 @@
                         {{ post.body }}
                     </div>
                 {% endif %}
-            <p class="edit">
-                <a href=""><span class="label label-info">编辑</span></a>
-                <a href=""><span class="label label-success">生成链接</span></a>
-                <a href=""><span class="label label-primary">评论</span></a>
-            </p>
+
             <hr>
 
         </div>
         <div style="margin-top: 100px">
 
-            <h1>发表评论</h1>
+
             {% if not current_user.is_anonymous %}
+                  <h1>发表评论</h1>
                 {{ wtf.quick_form(form) }}
             {% endif %}
 
 
             {% for foo in pagination.items %}
+                 <h1>评论</h1>
                 <div class="a1">
                     <div class="head-img">
                         <a><img src="{{ foo.user_comment.get_upload_file() }}"></a>

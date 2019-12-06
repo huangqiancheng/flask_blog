@@ -29,7 +29,7 @@
                     </div>
                 {% endif %}
             <p class="edit">
-                <a href="{{ url_for('auth.edit',id=foo.id) }}"><span class="label label-info">编辑</span></a>
+                <a {% if foo.author == user or user.can(Permission.ADMIN)  %}href="{{ url_for('auth.edit',id=foo.id) }}"{% endif %} ><span class="label label-info">编辑</span></a>
                 <a href="{{ url_for('auth.edit',id=foo.id) }}"><span class="label label-success">生成链接</span></a>
                 <a href="{{ url_for('auth.comment',id=foo.id) }}"><span class="label label-primary">评论</span></a>
             </p>

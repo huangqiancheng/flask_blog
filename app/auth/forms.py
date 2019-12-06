@@ -22,6 +22,12 @@ class RegisterForm(FlaskForm):
     password2 = PasswordField(label="确认密码",validators=[DataRequired(),EqualTo('password',message ="两次密码必须一致")])
     submit = SubmitField(label="提交")
 
+class PasswordChangeForm(FlaskForm):
+    password = PasswordField(label="旧密码",validators=[DataRequired()])
+    password1 = PasswordField(label="新密码",validators=[DataRequired()])
+    password2 = PasswordField(label = "重置密码" , validators = [DataRequired(),EqualTo(fieldname='password1',message='与新密码不一致！')])
+    submit = SubmitField(label="更新密码")
+
 class UploadForm(FlaskForm):
     img = FileField(label='图片',validators=[FileRequired(),FileAllowed(upload_set = ['jpg','jpeg','png','gif'],message="上传文件格式不允许！")])
     submit = SubmitField('提交')
@@ -39,6 +45,7 @@ class EditProfileForm(FlaskForm):
     # def validate_username(self,field):
     #     if User.query.filter_by(username = field.data).first():
     #         raise ValidationError("该用户名已被使用，请换一个继续修改！")
+
 
 class EditProfilenameAdminForm(FlaskForm):
     email = StringField(label='邮箱', validators=[DataRequired(), Length(1, 64), Email()])

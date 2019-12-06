@@ -11,7 +11,7 @@ from app.api import api
 from app.auth import auth
 from app.auth.email import sender_email
 from app.auth.forms import UploadForm, RegisterForm, LoginForm, EditProfileForm, EditProfilenameAdminForm, PostForm, \
-    CommentForm
+    CommentForm, PasswordChangeForm
 from app.decorators import permission_required
 from app.models import User, Permission, Post, Comment
 
@@ -96,6 +96,21 @@ def register():
         return redirect(url_for("auth.index"))
     return render_template("auth/register.html", form=form)
 
+
+@auth.route('/changepwd', methods=["GET", 'POST'])
+@login_required
+def changepwd():
+    form = PasswordChangeForm()
+    if form.validate_on_submit():
+        newpassword = form.password1.data
+        current_user.password =newpassword
+        try:
+            db.session.add(current_user)
+            db.session.commit()
+        except:
+            flash("修改密码失败！")
+        return redirect(url_for("auth.index"))
+    return render_template("auth/changepwd.html", form=form)
 
 @auth.route('/confirm/<token>')
 @login_required
@@ -219,6 +234,7 @@ def edit_profile_admin(user_id):
     return render_template('auth/edit_profile_admin.html', form=form,user=user)
 
 @auth.route('/edit/<int:id>',methods = ['GET','POST'])
+@login_required
 def edit(id):
     form_data = Post.query.filter_by(id=id).first()
     form =  PostForm(obj=form_data)
